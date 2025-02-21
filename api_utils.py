@@ -2,12 +2,19 @@ import requests
 import json
 from dotenv import load_dotenv
 import os
+import logging
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
 class API():
-    def __init__(self):
-        self.baseurl = os.getenv("API_BASE_URL")
+    def __init__(self, baseurl=None):
+        if baseurl:
+            self.baseurl = baseurl
+        else:
+            self.baseurl = os.getenv("API_BASE_URL")
     
     def get_all_user_sessions(self,params):
         url = f"{self.baseurl}/get_all_user_sessions/"
@@ -28,13 +35,15 @@ class API():
         }
     
     def stream_response(self, params, followup=True):
+        logger.info(f"Stream params: {params}")
+
         if followup:
             url = f"{self.baseurl}/followup_stream_response/"
         else:
             url = f"{self.baseurl}/stream_response/"
         response = requests.get(
             url,
-            json=params,
+            params=params,
             stream=True
         )
         
@@ -48,10 +57,11 @@ class API():
         url = f"{self.baseurl}/get_chat_history/"
         response = requests.get(
             url,
-            json=params,
+            params=params,
         )
 
         if response.status_code != 200:
+            logger.error(response.text)
             return {
                 "status": "error",
                 "message": "Failed to fetch chat history"
@@ -70,6 +80,7 @@ class API():
         )
 
         if response.status_code != 200:
+            logger.error(response.text)
             return {
                 "status": "error",
                 "message": "Failed to process video"
@@ -88,7 +99,13 @@ class API():
         )
 
         if response.status_code != 200:
+            logger.error(response.text)
             return {
                 "status": "error",
                 "message": "Failed to insert message but you can still chat!"
+            }
+        else:
+            return {
+                "status": "success",
+                "data": ""
             }

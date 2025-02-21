@@ -5,6 +5,10 @@ import requests
 import json
 from api_utils import API
 from datetime import datetime
+import logging
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
 footer = """
 <style>
@@ -93,12 +97,11 @@ def ai_response(msg):
 
 def initialize_sessions_state_variables():
     st.session_state.localS = LocalStorage()
-    st.session_state.api = API()
+    st.session_state.api = API(baseurl=st.secrets["API_BASE_URL"])
     st.session_state.user_logo = "custom_chat_logos/user.jpg"
     st.session_state.ai_logo = "custom_chat_logos/cat_bot.jpg"
     storage_values = st.session_state.localS.getAll()
     st.session_state.user = storage_values['ajs_anonymous_id']
-
     if not storage_values.get("youtalk_user_sessions", None):
         params = {"user_id":st.session_state.user }
 
