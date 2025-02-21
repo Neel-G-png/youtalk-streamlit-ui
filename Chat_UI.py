@@ -11,28 +11,24 @@ import streamlit.components.v1 as components
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-footer = """
+sidebar_footer = """
 <style>
-.footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+.sidebar-text {
     background-color: black;
     color: white;
     text-align: center;
     padding: 12px 20px;
-    font-size: 16px;
-    z-index: 1000;
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+    font-size: 14px;
+    border-radius: 8px;
+    margin: 10px 0;
     transition: all 0.3s ease;
 }
 
-.footer:hover {
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+.sidebar-text:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.footer a {
+.sidebar-text a {
     color: #2D7FF9;
     text-decoration: none;
     padding: 4px 8px;
@@ -41,32 +37,27 @@ footer = """
     font-weight: 500;
 }
 
-.footer a:hover {
+.sidebar-text a:hover {
     color: #1756B8;
     background-color: #F0F7FF;
     text-decoration: none;
     transform: translateY(-1px);
 }
 
-.footer .heart {
+.sidebar-text .heart {
     color: #FF4B4B;
     display: inline-block;
     transition: transform 0.3s ease;
 }
 
-.footer:hover .heart {
+.sidebar-text:hover .heart {
     transform: scale(1.2);
-}
-
-.stApp {
-    padding-bottom: 60px;
 }
 </style>
 
-<div class="footer">
+<div class="sidebar-text">
     Made with <span class="heart">❤️</span> by 
-    <a href="https://neelgandhi.netlify.app/" 
-       target="_blank">Neel Gandhi</a>
+    <a href="https://neelgandhi.netlify.app/" target="_blank">Neel Gandhi</a>
 </div>
 """
 
@@ -81,7 +72,10 @@ with open("analytics.html", "r") as f:
     html_code = f.read()
     components.html(html_code, height=0)
 
-st.header("YouTalk - Coz why not!", divider="rainbow")
+st.header(":green[YouTalk - Coz why not!]")
+st.subheader("A chatbot that talks to videos")
+st.write("– Simply paste a link in the sidebar, or select an older chat to continue chatting.")
+st.divider()
 
 def write_stream(stream):
     result = ""
@@ -274,10 +268,7 @@ def disclaimer():
 if 'variables_exist' not in st.session_state:
     initialize_sessions_state_variables()
 
-
-# fetch_chat_history(st.query_params.get("session_id", None))
-
-st.markdown(footer,unsafe_allow_html=True)
+st.sidebar.markdown(sidebar_footer, unsafe_allow_html=True)
 
 with st.sidebar:
     video_display_container = st.empty()
