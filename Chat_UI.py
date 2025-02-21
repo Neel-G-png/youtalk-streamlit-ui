@@ -71,8 +71,8 @@ footer = """
 """
 
 st.set_page_config(
-    page_title="Chat Boi",
-    page_icon="👋",
+    page_title="YouTalk",
+    page_icon="🎙️",
     layout="wide"
 )
 
