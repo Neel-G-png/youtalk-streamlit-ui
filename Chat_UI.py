@@ -261,6 +261,8 @@ def disclaimer():
     - Enjoying the project? Got an open position? I'd love to hear from you — <span class="highlight-box">I'm looking for a job!</span>
     """, unsafe_allow_html=True)
     st.divider()
+    st.markdown("[Linkedin](https://www.linkedin.com/in/neel-j-gandhi/)")
+    st.markdown("[Github](https://github.com/Neel-G-png)")
     st.markdown("[Report a 🐛](https://docs.google.com/forms/d/e/1FAIpQLScK0dQdnzfeNfAw_v_AK-vVTUvHUyMaQiNzl81taubNT73MLg/viewform?usp=dialog)")
 
 # erase_local_storage()
