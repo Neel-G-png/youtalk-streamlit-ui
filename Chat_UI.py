@@ -263,7 +263,7 @@ def disclaimer():
     st.divider()
     st.markdown("[Report a 🐛](https://docs.google.com/forms/d/e/1FAIpQLScK0dQdnzfeNfAw_v_AK-vVTUvHUyMaQiNzl81taubNT73MLg/viewform?usp=dialog)")
 
-erase_local_storage()
+# erase_local_storage()
 
 if 'variables_exist' not in st.session_state:
     initialize_sessions_state_variables()
