@@ -35,8 +35,6 @@ class API():
         }
     
     def stream_response(self, params, followup=True):
-        logger.info(f"Stream params: {params}")
-
         if followup:
             url = f"{self.baseurl}/followup_stream_response/"
         else:

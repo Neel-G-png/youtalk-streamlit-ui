@@ -17,8 +17,8 @@ footer = """
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: white;
-    color: #333;
+    background-color: black;
+    color: white;
     text-align: center;
     padding: 12px 20px;
     font-size: 16px;
@@ -74,6 +74,7 @@ st.set_page_config(
     page_icon="👋",
     layout="wide"
 )
+st.header("YouTalk - Coz why not!", divider="rainbow")
 
 def write_stream(stream):
     result = ""
@@ -207,7 +208,7 @@ def process_youtube_link(video_display_container):
                     }
                     response = st.session_state.api.process_video(params)
                     if response['status'] != "success":
-                        st.error(response['message'])
+                        st.error("Unable to process video.")
                     else:
                         if response['data']['sub_status'] == 202 or response['data']['sub_status'] == 200:
                             st.session_state.user_sessions = [(response['data']['session_id'], response['data']['video_name'], yt_URL, created_at)] + st.session_state.user_sessions
