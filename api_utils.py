@@ -81,7 +81,7 @@ class API():
             logger.error(response.text)
             return {
                 "status": "error",
-                "message": "Failed to process video"
+                "data": json.loads(response.text)['detail']
             }
         
         return {

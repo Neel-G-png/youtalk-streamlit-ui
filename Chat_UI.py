@@ -215,7 +215,7 @@ def process_youtube_link(video_display_container):
                     }
                     response = st.session_state.api.process_video(params)
                     if response['status'] != "success":
-                        st.error("Unable to process video.")
+                        st.error(response['data'])
                     else:
                         if response['data']['sub_status'] == 202 or response['data']['sub_status'] == 200:
                             st.session_state.user_sessions = [(response['data']['session_id'], response['data']['video_name'], yt_URL, created_at)] + st.session_state.user_sessions
@@ -240,6 +240,32 @@ def save_msg(role, msg):
     if response['status'] != "success":
         st.error(response['message'])
 
+def disclaimer():
+    st.markdown("""
+    <style>
+        .highlight-box {
+            display: inline-block;
+            padding: 2px 8px;
+            margin: 0 2px;
+            border-radius: 4px;
+            font-weight: bold;
+            background-color: rgba(147, 51, 234, 0.1);
+            color: #9333EA;
+            border: 1px solid rgba(147, 51, 234, 0.2);
+        }
+    </style>
+    
+    ## Disclaimer‼️
+
+    - Everything is <span class="highlight-box">FREE</span>.
+    - Since it runs on free-tier services, usage limits might be imposed frequently  
+    - If you can't access it right now, try again later or report a bug using the <span class="highlight-box">form below</span>.  
+    - If something else seems off, feel free to <span class="highlight-box">reach out to me</span>.  
+    - Enjoying the project? Got an open position? I'd love to hear from you — <span class="highlight-box">I'm looking for a job!</span>
+    """, unsafe_allow_html=True)
+    st.divider()
+    st.markdown("[Report a 🐛](https://docs.google.com/forms/d/e/1FAIpQLScK0dQdnzfeNfAw_v_AK-vVTUvHUyMaQiNzl81taubNT73MLg/viewform?usp=dialog)")
+
 # erase_local_storage()
 
 if 'variables_exist' not in st.session_state:
@@ -255,6 +281,8 @@ with st.sidebar:
     process_youtube_link(video_display_container)
     st.write("## Or")
     chat_with_history(video_display_container)
+    st.divider()
+    disclaimer()
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"], avatar=st.session_state.ai_logo if message["role"] == 'user' else st.session_state.user_logo):
