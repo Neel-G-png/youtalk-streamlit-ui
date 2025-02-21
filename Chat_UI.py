@@ -214,17 +214,20 @@ def process_youtube_link(video_display_container):
                         "created_at":  created_at
                     }
                     response = st.session_state.api.process_video(params)
-                    if response['status'] != "success":
-                        st.error(response['data'])
-                    else:
-                        if response['data']['sub_status'] == 202 or response['data']['sub_status'] == 200:
-                            st.session_state.user_sessions = [(response['data']['session_id'], response['data']['video_name'], yt_URL, created_at)] + st.session_state.user_sessions
+                    try:
+                        if response['status'] != "success":
+                            st.error(response['data'])
+                        else:
+                            if response['data']['sub_status'] == 202 or response['data']['sub_status'] == 200:
+                                st.session_state.user_sessions = [(response['data']['session_id'], response['data']['video_name'], yt_URL, created_at)] + st.session_state.user_sessions
 
-                            # Also add it to local storage for persistence
-                            st.session_state.localS.setItem("youtalk_user_sessions", st.session_state.user_sessions)
+                                # Also add it to local storage for persistence
+                                st.session_state.localS.setItem("youtalk_user_sessions", st.session_state.user_sessions)
 
 
-                        st.query_params['session_id'] = response['data']['session_id']
+                            st.query_params['session_id'] = response['data']['session_id']
+                    except Exception as e:
+                        st.error(response)
                             
 def save_msg(role, msg):
     if not st.session_state.selected_session:

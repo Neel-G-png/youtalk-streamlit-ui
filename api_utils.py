@@ -78,7 +78,6 @@ class API():
         )
 
         if response.status_code != 200:
-            logger.error(response.text)
             return {
                 "status": "error",
                 "data": json.loads(response.text)['detail']
