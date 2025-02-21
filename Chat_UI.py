@@ -64,7 +64,7 @@ footer = """
 </style>
 
 <div class="footer">
-    Developed with <span class="heart">❤️</span> by 
+    Made with <span class="heart">❤️</span> by 
     <a href="https://neelgandhi.netlify.app/" 
        target="_blank">Neel Gandhi</a>
 </div>
@@ -188,7 +188,7 @@ def chat_with_history(video_display_container):
 def validate_youtube_link(youtube_link):
     parsed_url = urlparse(youtube_link)
     
-    if parsed_url.netloc in ["www.youtube.com", "youtube.com"]:
+    if parsed_url.netloc in ["www.youtube.com", "youtube.com", "m.youtube.com"]:
         query_params = parse_qs(parsed_url.query)
         return "v" in query_params  # Check if 'v' parameter exists
     
