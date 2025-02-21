@@ -6,6 +6,7 @@ import json
 from api_utils import API
 from datetime import datetime
 import logging
+import streamlit.components.v1 as components
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -74,6 +75,12 @@ st.set_page_config(
     page_icon="👋",
     layout="wide"
 )
+
+# Include Google Analytics tracking code
+with open("analytics.html", "r") as f:
+    html_code = f.read()
+    components.html(html_code, height=0)
+
 st.header("YouTalk - Coz why not!", divider="rainbow")
 
 def write_stream(stream):
@@ -220,6 +227,8 @@ def process_youtube_link(video_display_container):
                         st.query_params['session_id'] = response['data']['session_id']
                             
 def save_msg(role, msg):
+    if not st.session_state.selected_session:
+        return
     params = {
         "session_id": st.session_state.selected_session,
         "role": role,
@@ -253,16 +262,21 @@ for message in st.session_state.messages:
 
 if prompt := st.chat_input("What is up?"):
     # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "msg": prompt})
-    save_msg("user", prompt)
+    if st.session_state.selected_session:
+        st.session_state.messages.append({"role": "user", "msg": prompt})
+        save_msg("user", prompt)
 
     with st.chat_message("user", avatar=st.session_state.user_logo):
         st.markdown(prompt)
 
     ai_msg = ""
-    with st.spinner("Responding..."):
-        with st.chat_message("assistant", avatar=st.session_state.ai_logo):
-            ai_msg += write_stream(stream=ai_response(prompt))
+    if st.session_state.selected_session:
+        with st.spinner("Responding..."):
+            with st.chat_message("assistant", avatar=st.session_state.ai_logo):
+                ai_msg += write_stream(stream=ai_response(prompt))
 
-    st.session_state.messages.append({"role": "assistant", "msg": ai_msg})
-    save_msg("assistant", ai_msg)
+        st.session_state.messages.append({"role": "assistant", "msg": ai_msg})
+        save_msg("assistant", ai_msg)
+    else:
+        with st.chat_message("assistant", avatar=st.session_state.ai_logo):
+            st.markdown("Please select a video to continue chatting.")
