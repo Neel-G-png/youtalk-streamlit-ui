@@ -104,7 +104,8 @@ def initialize_sessions_state_variables():
     st.session_state.ai_logo = "custom_chat_logos/cat_bot.jpg"
     storage_values = st.session_state.localS.getAll()
     st.session_state.user = storage_values['ajs_anonymous_id']
-    if not storage_values.get("youtalk_user_sessions", None):
+    if not storage_values.get("youtalk_user_sessions", None) or True:
+        # Currently always fetch, fixing deletion bugs
         params = {"user_id":st.session_state.user }
 
         response = st.session_state.api.get_all_user_sessions(params)
@@ -200,7 +201,7 @@ def process_youtube_link(video_display_container):
             if not validate_youtube_link(yt_URL):
                 st.error("Invalid Youtube Link. Please enter a valid Youtube Link.")
             else:
-                with st.spinner("Learing about video...", show_time=False):
+                with st.spinner("Learing about video... Might take a minute!", show_time=False):
                     created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     params = {
                         "user_id": st.session_state.user,
