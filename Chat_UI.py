@@ -201,7 +201,7 @@ def process_youtube_link(video_display_container):
             if not validate_youtube_link(yt_URL):
                 st.error("Invalid Youtube Link. Please enter a valid Youtube Link.")
             else:
-                with st.spinner("Learing about video... Might take a minute!", show_time=False):
+                with st.spinner("Learning about video... Might take a minute!", show_time=False):
                     created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     params = {
                         "user_id": st.session_state.user,
