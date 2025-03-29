@@ -72,7 +72,7 @@ with open("analytics.html", "r") as f:
     html_code = f.read()
     components.html(html_code, height=0)
 
-st.header(":green[YouTalk - Coz why not!]")
+st.header(":green[YouTalk - Cuz why not!]")
 st.subheader("A chatbot that talks to videos")
 st.write("– Simply paste a link in the sidebar, or select an older chat to continue chatting.")
 st.divider()
